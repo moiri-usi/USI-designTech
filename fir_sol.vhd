@@ -30,21 +30,33 @@ architecture Structural of fir_sol is
 	signal aout : array32_t(0 to 8);
 	
 begin
-    f1: for i in 0 to 9 generate
+    s1out(0) <= to_stdLogicVector(to_bitVector(Input(0)) sll 1);
+    s1out(9) <= to_stdLogicVector(to_bitVector(Input(9)) sll 1);
+    s1out(1) <= to_stdLogicVector(to_bitVector(Input(1)) sll 4);
+    s2out(1) <= to_stdLogicVector(to_bitVector(Input(1)) sll 3);
+    s1out(8) <= to_stdLogicVector(to_bitVector(Input(8)) sll 4);
+    s2out(8) <= to_stdLogicVector(to_bitVector(Input(8)) sll 3);
+    s1out(2) <= to_stdLogicVector(to_bitVector(Input(2)) sll 6);
+    s2out(2) <= to_stdLogicVector(to_bitVector(Input(2)) sll 5);
+    s1out(7) <= to_stdLogicVector(to_bitVector(Input(7)) sll 6);
+    s2out(7) <= to_stdLogicVector(to_bitVector(Input(7)) sll 5);
+    s1out(3) <= to_stdLogicVector(to_bitVector(Input(3)) sll 8);
+    s2out(3) <= to_stdLogicVector(to_bitVector(Input(3)) sll 7);
+    s1out(6) <= to_stdLogicVector(to_bitVector(Input(6)) sll 8);
+    s2out(6) <= to_stdLogicVector(to_bitVector(Input(6)) sll 7);
+    s1out(4) <= to_stdLogicVector(to_bitVector(Input(4)) sll 10);
+    s2out(4) <= to_stdLogicVector(to_bitVector(Input(4)) sll 11);
+    s1out(5) <= to_stdLogicVector(to_bitVector(Input(5)) sll 10);
+    s2out(5) <= to_stdLogicVector(to_bitVector(Input(5)) sll 11);
+	f1: for i in 0 to 9 generate
         if11: if i = 0 or i = 9 generate
-            s1out(i) <= to_stdLogicVector(to_bitVector(Input(i)) sll 1);
-            --s1out(i) <= Input(i)(30 downto 0) & '0';
             add11: adder port map (
                 A => s1out(i),
                 B => Input(i),
                 O => a2out(i)
             );
-        end generate if11;
-        if12: if i = 1 or i = 8 generate
-            s1out(i) <= to_stdLogicVector(to_bitVector(Input(i)) sll 4);
-            --s1out(i) <= Input(i)(27 downto 0) & "0000";
-            s2out(i) <= to_stdLogicVector(to_bitVector(Input(i)) sll 3);
-            --s2out(i) <= Input(i)(28 downto 0) & "000";
+		end generate if11;
+        if12: if i = 1 or i = 4 or i = 5 or i = 8 generate
             add21: adder port map (
                 A => s1out(i),
                 B => s2out(i),
@@ -55,46 +67,15 @@ begin
                 B => Input(i),
                 O => a2out(i)
             );
-        end generate if12;
-        if13: if i = 2 or i = 7 generate
-            s1out(i) <= to_stdLogicVector(to_bitVector(Input(i)) sll 6);
-            --s1out(i) <= Input(i)(25 downto 0) & "000000";
-            s2out(i) <= to_stdLogicVector(to_bitVector(Input(i)) sll 5);
-            --s2out(i) <= Input(i)(26 downto 0) & "00000";
+		end generate if12;
+        if13: if i = 2 or i = 3 or i = 6 or i = 7 generate
             add31: adder port map (
                 A => s1out(i),
                 B => s2out(i),
                 O => a2out(i)
             );
-        end generate if13;
-        if14: if i = 3 or i = 6 generate
-            s1out(i) <= to_stdLogicVector(to_bitVector(Input(i)) sll 8);
-            --s1out(i) <= Input(i)(23 downto 0) & "00000000";
-            s2out(i) <= to_stdLogicVector(to_bitVector(Input(i)) sll 7);
-            --s2out(i) <= Input(i)(24 downto 0) & "0000000";
-            add41: adder port map (
-                A => s1out(i),
-                B => s2out(i),
-                O => a2out(i)
-            );
-        end generate if14;
-        if15: if i = 4 or i = 5 generate
-            s1out(i) <= to_stdLogicVector(to_bitVector(Input(i)) sll 10);
-            --s1out(i) <= Input(i)(21 downto 0) & "0000000000";
-            s2out(i) <= to_stdLogicVector(to_bitVector(Input(i)) sll 11);
-            --s2out(i) <= Input(i)(20 downto 0) & "00000000000";
-            add51: adder port map (
-                A => s1out(i),
-                B => s2out(i),
-                O => a1out(i)
-            );
-            add52: adder port map (
-                A => a1out(i),
-                B => Input(i),
-                O => a2out(i)
-            );
-        end generate if15;
-    end generate f1; 
+		end generate if13;
+	end generate f1;  
 --    mout(0) <= to_stdLogicVector(to_bitVector(Input(0)) sll 1 + Input(0));
 --    mout(1) <= to_stdLogicVector(to_bitVector(Input(1)) sll 4 + to_bitVector(Input(1)) sll 3 + Input(1));
 --    mout(2) <= to_stdLogicVector(to_bitVector(Input(2)) sll 6 + to_bitVector(Input(2)) sll 5);
