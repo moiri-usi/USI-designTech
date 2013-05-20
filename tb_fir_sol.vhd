@@ -31,8 +31,8 @@ ARCHITECTURE testbench OF tb_fir_sol IS
 	END COMPONENT;
 
 	--Inputs
-	SIGNAL Reset :  std_logic;
-	SIGNAL Clk :  std_logic;
+	SIGNAL Reset :  std_logic := '1';
+	SIGNAL Clk :  std_logic := '0';
 	SIGNAL I :  std_logic_vector(31 downto 0) := (others=>'0');
 
 	--Outputs
